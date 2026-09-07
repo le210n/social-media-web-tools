@@ -1,5 +1,7 @@
 # Social Media Web Tools
 
+**→ Live: https://le210n.github.io/social-media-web-tools/**
+
 Eine kleine **Static-Web-App** für einfache Bildbearbeitung direkt im Browser.
 Kein Backend, kein Build-Schritt, kein Upload – alle Bilder bleiben auf deinem Rechner.
 Gehostet als statische Seite über **GitHub Pages**.
@@ -42,24 +44,22 @@ python3 -m http.server 8080
 # -> http://localhost:8080
 ```
 
-## Auf GitHub Pages deployen
+## Deployen
 
-1. Repository auf GitHub anlegen und pushen:
+GitHub Pages ist bereits eingerichtet: Quelle ist Branch `main`, Ordner `/` (root).
+„Deployen" heißt hier also schlicht **committen und pushen** – GitHub Pages liefert
+die Dateien unverändert aus, ein Build läuft nicht.
 
-   ```bash
-   git remote add origin git@github.com:<user>/social-media-web-tools.git
-   git push -u origin main
-   ```
+```bash
+git add -A
+git commit -m "…"
+git push
+```
 
-2. Auf GitHub: **Settings → Pages → Build and deployment**
-   - Source: **Deploy from a branch**
-   - Branch: **main** / **/ (root)** → Save
+Nach ein bis zwei Minuten ist die Änderung unter
+https://le210n.github.io/social-media-web-tools/ live.
 
-3. Nach ein bis zwei Minuten ist die App unter
-   `https://<user>.github.io/social-media-web-tools/` erreichbar.
-
-„Deployen" heißt hier also einfach: committen und pushen. GitHub Pages liefert
-die Dateien unverändert aus.
+Den Build-Status siehst du unter **Actions** bzw. **Settings → Pages** im Repo.
 
 ## Lizenz
 
