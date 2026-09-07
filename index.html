@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Social Media Web Tools</title>
+  <meta name="description" content="Einfache Bildbearbeitung direkt im Browser – zuschneiden, anpassen, exportieren. Nichts wird hochgeladen." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Social&nbsp;Media Web&nbsp;Tools</h1>
+    <div class="topbar-actions">
+      <button id="btn-open" class="btn">Bild öffnen</button>
+      <button id="btn-reset" class="btn btn-ghost" disabled>Zurücksetzen</button>
+    </div>
+    <input type="file" id="file-input" accept="image/*" hidden />
+  </header>
+
+  <main class="layout">
+    <section id="stage" class="stage" aria-label="Vorschau">
+      <div id="dropzone" class="dropzone">
+        <p><strong>Bild hierher ziehen</strong><br />oder auf „Bild öffnen“ klicken</p>
+        <p class="muted">Alles passiert lokal in deinem Browser – kein Upload.</p>
+      </div>
+      <div id="viewport" class="viewport" hidden>
+        <canvas id="view"></canvas>
+        <div id="crop-layer" class="crop-layer" hidden>
+          <div id="crop-box" class="crop-box">
+            <span class="handle nw"></span><span class="handle ne"></span>
+            <span class="handle sw"></span><span class="handle se"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel" aria-label="Werkzeuge">
+      <div class="tool" data-tool="transform">
+        <h2>Drehen &amp; Spiegeln</h2>
+        <div class="row">
+          <button class="btn btn-sm" data-action="rotate-left">↺ 90°</button>
+          <button class="btn btn-sm" data-action="rotate-right">↻ 90°</button>
+          <button class="btn btn-sm" data-action="flip-h">⇄ Horizontal</button>
+          <button class="btn btn-sm" data-action="flip-v">⇅ Vertikal</button>
+        </div>
+      </div>
+
+      <div class="tool" data-tool="crop">
+        <h2>Zuschneiden</h2>
+        <label class="field">
+          <span>Seitenverhältnis</span>
+          <select id="crop-ratio">
+            <option value="free">Frei</option>
+            <option value="original">Original</option>
+            <option value="1:1">1:1 – Post / Profil</option>
+            <option value="4:5">4:5 – Instagram Portrait</option>
+            <option value="9:16">9:16 – Story / Reel / TikTok</option>
+            <option value="16:9">16:9 – YouTube / Landscape</option>
+            <option value="1.91:1">1.91:1 – Link-Vorschau</option>
+            <option value="3:1">3:1 – Twitter/X Header</option>
+          </select>
+        </label>
+        <div class="row">
+          <button class="btn btn-sm" id="crop-start">Auswahl anpassen</button>
+          <button class="btn btn-sm btn-primary" id="crop-apply" hidden>Anwenden</button>
+          <button class="btn btn-sm btn-ghost" id="crop-clear" hidden>Verwerfen</button>
+        </div>
+      </div>
+
+      <div class="tool" data-tool="adjust">
+        <h2>Anpassungen</h2>
+        <label class="field slider">
+          <span>Helligkeit <output id="out-brightness">100%</output></span>
+          <input type="range" id="adj-brightness" min="0" max="200" value="100" />
+        </label>
+        <label class="field slider">
+          <span>Kontrast <output id="out-contrast">100%</output></span>
+          <input type="range" id="adj-contrast" min="0" max="200" value="100" />
+        </label>
+        <label class="field slider">
+          <span>Sättigung <output id="out-saturate">100%</output></span>
+          <input type="range" id="adj-saturate" min="0" max="200" value="100" />
+        </label>
+        <label class="field slider">
+          <span>Graustufen <output id="out-grayscale">0%</output></span>
+          <input type="range" id="adj-grayscale" min="0" max="100" value="0" />
+        </label>
+        <button class="btn btn-sm btn-ghost" data-action="reset-adjust">Anpassungen zurücksetzen</button>
+      </div>
+
+      <div class="tool" data-tool="resize">
+        <h2>Größe</h2>
+        <div class="row">
+          <label class="field"><span>Breite</span><input type="number" id="rs-w" min="1" /></label>
+          <label class="field"><span>Höhe</span><input type="number" id="rs-h" min="1" /></label>
+        </div>
+        <label class="check"><input type="checkbox" id="rs-lock" checked /> Seitenverhältnis behalten</label>
+      </div>
+
+      <div class="tool" data-tool="export">
+        <h2>Exportieren</h2>
+        <label class="field">
+          <span>Format</span>
+          <select id="ex-format">
+            <option value="image/png">PNG</option>
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </label>
+        <label class="field slider" id="quality-field" hidden>
+          <span>Qualität <output id="out-quality">92%</output></span>
+          <input type="range" id="ex-quality" min="10" max="100" value="92" />
+        </label>
+        <p class="muted" id="size-info">–</p>
+        <button class="btn btn-primary" id="btn-download" disabled>Herunterladen</button>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="foot">
+    <span>Läuft komplett offline im Browser. Kein Server, kein Upload.</span>
+  </footer>
+
+  <script src="js/state.js"></script>
+  <script src="js/pipeline.js"></script>
+  <script src="js/crop.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
