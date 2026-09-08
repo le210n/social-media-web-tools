@@ -97,6 +97,58 @@
         <label class="check"><input type="checkbox" id="rs-lock" checked /> Seitenverhältnis behalten</label>
       </div>
 
+      <div class="tool" data-tool="watermark">
+        <h2>KI-Wasserzeichen</h2>
+        <label class="check"><input type="checkbox" id="wm-enabled" /> Wasserzeichen aufs Bild legen</label>
+        <div id="wm-options" class="wm-options" hidden>
+          <canvas id="wm-preview" class="wm-preview" width="520" height="220" aria-label="Vorschau des Wasserzeichens"></canvas>
+          <div class="row">
+            <label class="field">
+              <span>Kürzel</span>
+              <select id="wm-text">
+                <option value="KI">KI</option>
+                <option value="AI">AI</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Variante</span>
+              <select id="wm-style">
+                <option value="green">Grün</option>
+                <option value="dark">Anthrazit</option>
+                <option value="light">Weiß</option>
+              </select>
+            </label>
+          </div>
+          <div class="field">
+            <span>Position</span>
+            <div class="wm-grid" id="wm-grid" role="group" aria-label="Position des Wasserzeichens">
+              <button type="button" data-pos="tl" aria-label="oben links"></button>
+              <button type="button" data-pos="tc" aria-label="oben mittig"></button>
+              <button type="button" data-pos="tr" aria-label="oben rechts"></button>
+              <button type="button" data-pos="ml" aria-label="mittig links"></button>
+              <button type="button" data-pos="mc" aria-label="zentriert"></button>
+              <button type="button" data-pos="mr" aria-label="mittig rechts"></button>
+              <button type="button" data-pos="bl" aria-label="unten links"></button>
+              <button type="button" data-pos="bc" aria-label="unten mittig"></button>
+              <button type="button" data-pos="br" aria-label="unten rechts"></button>
+            </div>
+          </div>
+          <label class="field slider">
+            <span>Größe <output id="out-wm-size">15%</output></span>
+            <input type="range" id="wm-size" min="5" max="40" value="15" />
+          </label>
+          <label class="field slider">
+            <span>Deckkraft <output id="out-wm-opacity">90%</output></span>
+            <input type="range" id="wm-opacity" min="20" max="100" value="90" />
+          </label>
+          <label class="check"><input type="checkbox" id="wm-caption" checked /> Zusatzzeile</label>
+          <label class="field" id="wm-caption-field">
+            <span>Text</span>
+            <input type="text" id="wm-caption-text" value="KI-generiert" maxlength="28" />
+          </label>
+        </div>
+      </div>
+
       <div class="tool" data-tool="export">
         <h2>Exportieren</h2>
         <label class="field">
@@ -124,6 +176,7 @@
   <script src="js/state.js"></script>
   <script src="js/pipeline.js"></script>
   <script src="js/crop.js"></script>
+  <script src="js/watermark.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

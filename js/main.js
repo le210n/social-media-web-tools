@@ -23,6 +23,19 @@
     rsW: $("rs-w"),
     rsH: $("rs-h"),
     rsLock: $("rs-lock"),
+    wmEnabled: $("wm-enabled"),
+    wmOptions: $("wm-options"),
+    wmPreview: $("wm-preview"),
+    wmText: $("wm-text"),
+    wmStyle: $("wm-style"),
+    wmGrid: $("wm-grid"),
+    wmSize: $("wm-size"),
+    outWmSize: $("out-wm-size"),
+    wmOpacity: $("wm-opacity"),
+    outWmOpacity: $("out-wm-opacity"),
+    wmCaption: $("wm-caption"),
+    wmCaptionField: $("wm-caption-field"),
+    wmCaptionText: $("wm-caption-text"),
     exFormat: $("ex-format"),
     exQuality: $("ex-quality"),
     qualityField: $("quality-field"),
@@ -56,6 +69,7 @@
       App.Crop.exit();
       showCropButtons(false);
       resetAdjustUI();
+      syncWatermarkUI();
       syncResizeInputs();
       render();
     };
@@ -225,6 +239,69 @@
   els.rsW.addEventListener("change", () => applyResizeFrom("w"));
   els.rsH.addEventListener("change", () => applyResizeFrom("h"));
 
+  // ---------- KI-Wasserzeichen ----------
+  function drawWatermarkPreview() {
+    const c = els.wmPreview;
+    const ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    // Neutraler Foto-Ersatz, damit helle wie dunkle Varianten beurteilbar sind.
+    const bg = ctx.createLinearGradient(0, 0, c.width, c.height);
+    bg.addColorStop(0, "#3f4642");
+    bg.addColorStop(1, "#8d968a");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    const wm = App.state.watermark;
+    const mark = App.Watermark.renderMark(c.height * 0.62, wm);
+    ctx.save();
+    ctx.globalAlpha = Math.max(0.05, Math.min(1, wm.opacity / 100));
+    ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
+    ctx.shadowBlur = c.height * 0.045;
+    ctx.shadowOffsetY = c.height * 0.012;
+    ctx.drawImage(mark, (c.width - mark.width) / 2, (c.height - mark.height) / 2);
+    ctx.restore();
+  }
+
+  function syncWatermarkUI() {
+    const wm = App.state.watermark;
+    els.wmEnabled.checked = wm.enabled;
+    els.wmOptions.hidden = !wm.enabled;
+    els.wmText.value = wm.text;
+    els.wmStyle.value = wm.style;
+    els.wmSize.value = wm.size;
+    els.outWmSize.textContent = wm.size + "%";
+    els.wmOpacity.value = wm.opacity;
+    els.outWmOpacity.textContent = wm.opacity + "%";
+    els.wmCaption.checked = wm.caption;
+    els.wmCaptionText.value = wm.captionText;
+    els.wmCaptionField.hidden = !wm.caption;
+    [...els.wmGrid.children].forEach((b) =>
+      b.setAttribute("aria-pressed", String(b.dataset.pos === wm.position))
+    );
+    if (wm.enabled) drawWatermarkPreview();
+  }
+
+  function updateWatermark(patch) {
+    Object.assign(App.state.watermark, patch);
+    syncWatermarkUI();
+    render();
+  }
+
+  els.wmEnabled.addEventListener("change", () => updateWatermark({ enabled: els.wmEnabled.checked }));
+  els.wmText.addEventListener("change", () => updateWatermark({ text: els.wmText.value }));
+  els.wmStyle.addEventListener("change", () => updateWatermark({ style: els.wmStyle.value }));
+  els.wmSize.addEventListener("input", () => updateWatermark({ size: Number(els.wmSize.value) }));
+  els.wmOpacity.addEventListener("input", () => updateWatermark({ opacity: Number(els.wmOpacity.value) }));
+  els.wmCaption.addEventListener("change", () => updateWatermark({ caption: els.wmCaption.checked }));
+  els.wmCaptionText.addEventListener("input", () =>
+    updateWatermark({ captionText: els.wmCaptionText.value })
+  );
+  els.wmGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-pos]");
+    if (btn) updateWatermark({ position: btn.dataset.pos });
+  });
+
   // ---------- export ----------
   function refreshQualityField() {
     const isPng = els.exFormat.value === "image/png";
@@ -268,9 +345,11 @@
     els.outQuality.textContent = "92%";
     refreshQualityField();
     resetAdjustUI();
+    syncWatermarkUI();
     syncResizeInputs();
     render();
   });
 
   refreshQualityField();
+  syncWatermarkUI();
 })();

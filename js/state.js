@@ -25,6 +25,18 @@
       // output resize, or null for "native size"
       resize: null, // { w, h }
 
+      // KI-Wasserzeichen (wird als letzter Schritt aufs Ergebnis gelegt)
+      watermark: {
+        enabled: false,
+        text: "KI", // "KI" | "AI"
+        style: "green", // "green" | "dark" | "light"
+        position: "br", // tl tc tr ml mc mr bl bc br
+        size: 15, // Höhe der Kettlebell in % der kürzeren Bildkante
+        opacity: 90, // %
+        caption: true,
+        captionText: "KI-generiert",
+      },
+
       // export
       format: "image/png",
       quality: 0.92,

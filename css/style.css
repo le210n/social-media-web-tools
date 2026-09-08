@@ -196,6 +196,49 @@ output { color: var(--text); font-variant-numeric: tabular-nums; }
 
 .muted { color: var(--muted); font-size: 12px; }
 
+/* ---------- Wasserzeichen-Werkzeug ---------- */
+.wm-options { margin-top: 12px; }
+
+.wm-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  background: var(--bg-3);
+}
+
+.wm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 108px;
+}
+
+.wm-grid button {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.wm-grid button:hover { border-color: #4a5361; }
+.wm-grid button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.field input[type="text"] {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 7px 9px;
+  font: inherit;
+}
+
 /* ---------- buttons ---------- */
 .btn {
   background: var(--bg-3);

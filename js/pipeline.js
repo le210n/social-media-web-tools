@@ -60,6 +60,9 @@
       c = ac;
     }
 
+    // Zuletzt, damit das Wasserzeichen von Helligkeit/Sättigung unberührt bleibt.
+    if (App.Watermark) App.Watermark.draw(c);
+
     return c;
   };
 
