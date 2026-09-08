@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Social Media Web Tools</title>
   <meta name="description" content="Einfache Bildbearbeitung direkt im Browser – zuschneiden, anpassen, exportieren. Nichts wird hochgeladen." />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=2" />
 </head>
 <body>
   <header class="topbar">
@@ -173,10 +173,13 @@
     <span>Läuft komplett offline im Browser. Kein Server, kein Upload.</span>
   </footer>
 
-  <script src="js/state.js"></script>
-  <script src="js/pipeline.js"></script>
-  <script src="js/crop.js"></script>
-  <script src="js/watermark.js"></script>
-  <script src="js/main.js"></script>
+  <!-- ?v= ... : GitHub Pages liefert die Dateien mit max-age=600 aus. Ohne
+       diesen Zusatz mischt der Browser nach einem Update alte und neue
+       Dateien. Bei Änderungen an CSS/JS die Zahl hier hochzählen. -->
+  <script src="js/state.js?v=2"></script>
+  <script src="js/pipeline.js?v=2"></script>
+  <script src="js/crop.js?v=2"></script>
+  <script src="js/watermark.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
 </body>
 </html>
